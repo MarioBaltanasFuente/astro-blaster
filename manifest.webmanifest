@@ -1,0 +1,35 @@
+{
+  "name": "Astro Blaster 32",
+  "short_name": "AstroBlaster",
+  "description": "Shoot-em-up retro 32-bit con bosses, power-ups y meteoritos.",
+  "id": "/spaceship.html",
+  "start_url": "./spaceship.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#000010",
+  "theme_color": "#000010",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "form_factor": "wide"
+    }
+  ]
+}

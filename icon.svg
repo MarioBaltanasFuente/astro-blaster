@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="0.5" cy="0.5" r="0.7">
+      <stop offset="0" stop-color="#001a4d"/>
+      <stop offset="0.6" stop-color="#000020"/>
+      <stop offset="1" stop-color="#000010"/>
+    </radialGradient>
+    <linearGradient id="hull" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cff0ff"/>
+      <stop offset="0.4" stop-color="#4ac8ff"/>
+      <stop offset="1" stop-color="#1455a4"/>
+    </linearGradient>
+    <radialGradient id="flame" cx="0.5" cy="0.2" r="0.6">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="0.3" stop-color="#ffe040"/>
+      <stop offset="0.7" stop-color="#ff8020"/>
+      <stop offset="1" stop-color="#c02020" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow">
+      <stop offset="0" stop-color="#4af" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#4af" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Fondo con padding maskable safe zone (10%) -->
+  <rect width="512" height="512" fill="url(#bg)"/>
+
+  <!-- Estrellas -->
+  <g fill="#fff">
+    <circle cx="80" cy="120" r="2"/>
+    <circle cx="430" cy="90" r="3"/>
+    <circle cx="120" cy="380" r="2"/>
+    <circle cx="400" cy="420" r="2.5"/>
+    <circle cx="320" cy="60" r="1.5"/>
+    <circle cx="60" cy="300" r="1.5"/>
+    <circle cx="460" cy="280" r="1.5"/>
+    <circle cx="220" cy="450" r="2"/>
+  </g>
+  <g fill="#a8c0ff" opacity="0.7">
+    <circle cx="180" cy="100" r="1.5"/>
+    <circle cx="380" cy="200" r="1.5"/>
+    <circle cx="100" cy="200" r="1.5"/>
+    <circle cx="280" cy="380" r="1.5"/>
+  </g>
+
+  <!-- Glow alrededor de la nave -->
+  <circle cx="256" cy="256" r="180" fill="url(#glow)"/>
+
+  <!-- Llama -->
+  <ellipse cx="256" cy="380" rx="40" ry="80" fill="url(#flame)"/>
+  <ellipse cx="232" cy="400" rx="14" ry="36" fill="url(#flame)" opacity="0.7"/>
+  <ellipse cx="280" cy="400" rx="14" ry="36" fill="url(#flame)" opacity="0.7"/>
+
+  <!-- Nave - cuerpo principal -->
+  <path d="M 256 110
+           L 296 200
+           L 326 280
+           L 326 320
+           L 296 350
+           L 256 340
+           L 216 350
+           L 186 320
+           L 186 280
+           L 216 200 Z"
+        fill="url(#hull)" stroke="#062048" stroke-width="6" stroke-linejoin="round"/>
+
+  <!-- Cabina -->
+  <ellipse cx="256" cy="220" rx="22" ry="34" fill="#cff" stroke="#062048" stroke-width="4"/>
+  <ellipse cx="248" cy="208" rx="8" ry="14" fill="#fff" opacity="0.85"/>
+
+  <!-- Alas -->
+  <path d="M 186 290 L 130 320 L 140 360 L 186 340 Z" fill="#1455a4" stroke="#062048" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M 326 290 L 382 320 L 372 360 L 326 340 Z" fill="#1455a4" stroke="#062048" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- Detalles de las alas -->
+  <rect x="148" y="328" width="22" height="8" fill="#4ac8ff"/>
+  <rect x="342" y="328" width="22" height="8" fill="#4ac8ff"/>
+
+  <!-- Cañones -->
+  <rect x="200" y="120" width="10" height="40" fill="#4ac8ff" stroke="#062048" stroke-width="3"/>
+  <rect x="302" y="120" width="10" height="40" fill="#4ac8ff" stroke="#062048" stroke-width="3"/>
+
+  <!-- Highlights -->
+  <path d="M 220 200 L 240 270" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+</svg>
