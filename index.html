@@ -636,7 +636,7 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
 
   const btnF = document.getElementById('btnF');
   const btnB = document.getElementById('btnB');
-  ['touchstart','mousedown'].forEach(ev=>btnF.addEventListener(ev,e=>{e.preventDefault();input.fire=true;},{passive:false}));
+  ['touchstart','mousedown'].forEach(ev=>btnF.addEventListener(ev,e=>{e.preventDefault();if(started&&gameOver){tryRestart();return;}input.fire=true;},{passive:false}));
   ['touchend','touchcancel','mouseup','mouseleave'].forEach(ev=>btnF.addEventListener(ev,e=>{e.preventDefault();input.fire=false;},{passive:false}));
   ['touchstart','mousedown'].forEach(ev=>btnB.addEventListener(ev,e=>{e.preventDefault();queueBomb();},{passive:false}));
 
@@ -672,7 +672,9 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     });
   });
   goBtn.addEventListener('click', beginGame);
-  cvs.addEventListener('click', () => { if (!started) beginGame(); else if (paused) togglePause(); });
+  cvs.addEventListener('click', () => { if (!started) beginGame(); else if (gameOver) tryRestart(); else if (paused) togglePause(); });
+  // Reinicio táctil: tocar en cualquier parte tras GAME OVER.
+  addEventListener('touchstart', () => { if (started && gameOver) tryRestart(); }, {passive:true});
 
   let started = false;
   function beginGame(){
@@ -684,7 +686,7 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   }
 
   // ── Estado ───────────────────────────────────────────────
-  let player, bullets, enemies, particles, eBullets, score, lives, gameOver, waveTimer, wave, paused, flashT, flashColor, boss, powerups, rocks, bombs, msg, msgT, msgColor, screenShake, pendingBomb, popups, shockwaves, combo, comboT, comboMul, hitFlashMap;
+  let player, bullets, enemies, particles, eBullets, score, lives, gameOver, waveTimer, wave, paused, flashT, flashColor, boss, powerups, rocks, bombs, msg, msgT, msgColor, screenShake, pendingBomb, popups, shockwaves, combo, comboT, comboMul, hitFlashMap, goLock;
   const DIFF = [
     { name:'EASY',   mul:0.75, fireMul:1.4, enemyRate:0.85, dropMul:1.5 },
     { name:'NORMAL', mul:1.0,  fireMul:1.0, enemyRate:1.0,  dropMul:1.0 },
@@ -699,12 +701,17 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     bullets = []; enemies = []; eBullets = []; particles = [];
     powerups = []; rocks = []; popups = []; shockwaves = [];
     score = 0; lives = 3; bombs = 2;
-    gameOver = false; waveTimer = 80; wave = 1;
+    gameOver = false; goLock = 0; waveTimer = 80; wave = 1;
     paused = false; flashT = 0; flashColor = '#fff'; boss = null;
     msg = ''; msgT = 0; msgColor = '#ff4'; screenShake = 0; pendingBomb = false;
     combo = 0; comboT = 0; comboMul = 1;
   }
   reset();
+
+  function tryRestart(){
+    if (started && gameOver && goLock <= 0){ reset(); Audio.sfx.wave(); return true; }
+    return false;
+  }
 
   function togglePause(){
     if (!started || gameOver) return;
@@ -1216,12 +1223,14 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
       msgT--;
     }
     if (gameOver){
+      if (goLock > 0) goLock--;
       ctx.fillStyle = 'rgba(0,0,0,0.78)';
-      ctx.fillRect(0, H/2-30, W, 70);
+      ctx.fillRect(0, H/2-30, W, 78);
       textGlow("GAME OVER", W/2 - 18, H/2 - 22, '#f44', '#400');
       textShadow("SCORE " + String(score).padStart(6,'0'), W/2 - 24, H/2 - 8);
       textShadow("BEST  " + String(highscore).padStart(6,'0'), W/2 - 24, H/2 + 2, '#ff4');
-      textShadow("PRESS R", W/2 - 12, H/2 + 16);
+      if (goLock <= 0 && (Math.floor(Date.now()/450) % 2 === 0))
+        textShadow("TOCA PARA JUGAR", W/2 - 30, H/2 + 18, '#4ff');
     }
   }
 
@@ -1293,7 +1302,7 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     Audio.sfx.hurt();
     combo = 0; comboMul = 1;
     if (lives <= 0){
-      gameOver = true;
+      gameOver = true; goLock = 45;
       if (score > highscore){
         highscore = score;
         Store.set('astro_hi', highscore);
