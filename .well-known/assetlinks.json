@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.mario.astroblaster",
+      "sha256_cert_fingerprints": [
+        "67:62:0D:AF:2E:71:50:9C:A5:53:EC:35:99:EC:F1:0D:0F:75:C0:E9:C6:74:72:C6:E3:D3:7A:DA:A2:69:53:86"
+      ]
+    }
+  }
+]
